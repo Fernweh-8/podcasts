@@ -2,9 +2,9 @@ from django.shortcuts import render
 
 from django.views.generic import ListView
 
-from .models improt Episode
+from .models import Episode
 
-class HopePageView(ListView):
+class HomePageView(ListView):
     template_name = "homepage.html"
     model = Episode
 
