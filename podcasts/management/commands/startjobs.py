@@ -3,7 +3,7 @@ from django.core.management.base import BaseCommand
 import feedparser
 from dateutil import parser
 
-from pdocasts.models import Episode
+from podcasts.models import Episode
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
@@ -17,7 +17,7 @@ class Command(BaseCommand):
                     title = item.title,
                     description = item.description,
                     pub_date = parser.parse(item.published),
-                    link = item.link
+                    link = item.link,
                     podcast_name = podcast_title,
                     guid = item.guid
                 )
