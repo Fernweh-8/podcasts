@@ -57,7 +57,7 @@ class Command(BaseCommand):
     help = "Runs apscheduler."
 
     def handle(self, *args, **options):
-        scheduled = BlockingScheduler(timezone=settings.TIME_ZONE)
+        scheduler = BlockingScheduler(timezone=settings.TIME_ZONE)
         scheduler.add_jobstore(DjangoJobStore(), "default")
 
         scheduler.add_job(
@@ -65,7 +65,7 @@ class Command(BaseCommand):
             trigger="interval",
             minutes=2,
             id='The Real Python Podcast',
-            max_instance=1,
+            max_instances=1,
             replace_existing=True,
         )
         logger.info("Added job: The Real Python Podcast.")
@@ -75,18 +75,18 @@ class Command(BaseCommand):
             trigger="interval",
             minutes=2,
             id='Talk Python to Me Podcast',
-            max_instance=1,
+            max_instances=1,
             replace_existing=True,
         )
         logger.info("Added job: Talk Python Feed.")
 
-        scheduled.add_job(
+        scheduler.add_job(
             delete_old_job_executions,
             trigger=CronTrigger(
                 day_of_week="mon", hour="00", minute="00"
             ),
             id="Delete Old Job Executions",
-            max_instance=1,
+            max_instances=1,
             replace_existing=True,
         )
         logger.info("Added weekly job: Delete Old Job Executions.")
